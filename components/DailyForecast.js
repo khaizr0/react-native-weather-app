@@ -7,25 +7,26 @@ const DailyForecast = ({ day, index }) => {
   return (
     <DayContainer>
       <DateContainer>
-        <WeekDay>{moment(day.dt * 1000).format("ddd")}</WeekDay>
+        <WeekDay>{moment(day.date).format("ddd")}</WeekDay>
       </DateContainer>
       <IconTempView>
         <WeatherIcon
           source={{
-            uri: `http://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`,
+            uri: `https:${day.day.condition.icon}`,
           }}
-          resizeMode={"contain"} // cover or contain its upto you view look
+          resizeMode={"contain"}
         />
-        <Text>{day.weather[0].description}</Text>
+        <Text>{day.day.condition.text}</Text>
       </IconTempView>
       <DegreeView>
-        <Degree>{Math.round(day.temp.max)}°C</Degree>
-        <FeelsLike>Feels {Math.round(day.feels_like.day)}°C</FeelsLike>
+        <Degree>{Math.round(day.day.maxtemp_c)}°C</Degree>
+        <FeelsLike>Avg {Math.round(day.day.avgtemp_c)}°C</FeelsLike>
       </DegreeView>
     </DayContainer>
   );
 };
 
+// Styled components remain the same
 const DayContainer = styled.View`
   padding: 10px;
   background-color: rgba(255, 255, 255, 0.6);

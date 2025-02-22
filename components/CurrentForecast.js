@@ -4,25 +4,23 @@ import styled from "styled-components/native";
 const CurrentForecast = ({ currentWeather }) => {
   return (
     <CurrentView>
-      <Timezone>{currentWeather.timezone}</Timezone>
+      <Timezone>{currentWeather.location?.name}, {currentWeather.location?.country}</Timezone>
       <MainInfoContainer>
         <CurrentTempView>
           {currentWeather.current && (
             <WeatherIcon
               source={{
-                uri: `http://openweathermap.org/img/wn/${currentWeather.current.weather[0].icon}@2x.png`,
+                uri: `https:${currentWeather.current.condition.icon}`,
               }}
               resizeMode={"contain"}
             />
           )}
           <CurrentDegrees>
-            {Math.round(currentWeather.current && currentWeather.current.temp)}
-            °C
+            {Math.round(currentWeather.current?.temp_c)}°C
           </CurrentDegrees>
         </CurrentTempView>
         <Description>
-          {currentWeather.current &&
-            currentWeather.current.weather[0].description}
+          {currentWeather.current?.condition.text}
         </Description>
       </MainInfoContainer>
       <SecondaryInfoContainer>
@@ -30,25 +28,19 @@ const CurrentForecast = ({ currentWeather }) => {
           <DetailsBox>
             <Label>Feels</Label>
             <Details>
-              {currentWeather.current &&
-                Math.round(currentWeather.current.feels_like)}
-              °C
+              {currentWeather.current && Math.round(currentWeather.current.feelslike_c)}°C
             </Details>
           </DetailsBox>
           <DetailsBox>
             <Label>Low</Label>
             <Details>
-              {currentWeather.daily &&
-                Math.round(currentWeather.daily[0].temp.min)}
-              °C
+              {currentWeather.forecast && Math.round(currentWeather.forecast.forecastday[0].day.mintemp_c)}°C
             </Details>
           </DetailsBox>
           <DetailsBox>
             <Label>High</Label>
             <Details>
-              {currentWeather.daily &&
-                Math.round(currentWeather.daily[0].temp.max)}
-              °C
+              {currentWeather.forecast && Math.round(currentWeather.forecast.forecastday[0].day.maxtemp_c)}°C
             </Details>
           </DetailsBox>
         </Row>
@@ -56,7 +48,7 @@ const CurrentForecast = ({ currentWeather }) => {
           <DetailsBox>
             <Label>Wind</Label>
             <Details>
-              {currentWeather.current && currentWeather.current.wind_speed} m/s
+              {currentWeather.current && currentWeather.current.wind_kph} km/h
             </Details>
           </DetailsBox>
           <DetailsBox>
@@ -68,7 +60,7 @@ const CurrentForecast = ({ currentWeather }) => {
           <DetailsBox>
             <Label>Rain</Label>
             <Details>
-              {currentWeather.daily > 0 ? currentWeather.daily[0].rain : "0"} MM
+              {currentWeather.forecast ? currentWeather.forecast.forecastday[0].day.totalprecip_mm : "0"} MM
             </Details>
           </DetailsBox>
         </Row>
@@ -77,6 +69,7 @@ const CurrentForecast = ({ currentWeather }) => {
   );
 };
 
+// Styled components remain the same
 const CurrentView = styled.View`
   display: flex;
   align-items: center;
