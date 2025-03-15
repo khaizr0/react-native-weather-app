@@ -69,7 +69,6 @@ const CurrentForecast = ({ currentWeather }) => {
   );
 };
 
-// Styled components remain the same
 const CurrentView = styled.View`
   display: flex;
   align-items: center;

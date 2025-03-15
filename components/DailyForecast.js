@@ -26,7 +26,6 @@ const DailyForecast = ({ day, index }) => {
   );
 };
 
-// Styled components remain the same
 const DayContainer = styled.View`
   padding: 10px;
   background-color: rgba(255, 255, 255, 0.6);
